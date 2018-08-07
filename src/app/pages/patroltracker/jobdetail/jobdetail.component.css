@@ -1,0 +1,78 @@
+.example-card {
+  max-width: 400px;
+  margin-bottom: 50px;
+  height: inherit;
+}
+
+.example-header-image {
+  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-size: cover;
+}
+.slider {
+overflow-y: hidden;
+max-height: 500px; /* approximate max height */
+
+transition-property: all;
+transition-duration: .5s;
+transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+}
+.slider.closed {
+max-height: 0;
+}
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #3f51b5;
+  color: #ffffff;
+  text-align: center;
+  height:50px;
+}
+.content2{
+  display: flex;
+  height: 100vh;
+  position: fixed;
+  width: 100%;
+  justify-content: center;
+}
+svg {
+  height: 12px;
+  width: 10px;
+  fill: white;
+}
+.u-proxima-nova-xlarge, h3:not([class]) {
+font-family: proxima-nova,sans-serif;
+font-size: 20px;
+font-size: 1.25rem;
+font-weight: 700;
+line-height: 1.4;
+color: #454849;
+}
+.u-xsmall-caps {
+/* font-family: Open Sans,sans-serif;
+
+font-size: .75rem;
+font-weight: 600;
+line-height: 1;
+text-transform: uppercase; */
+font-size: default;
+
+}
+.faqHeader{
+margin-top:10px;
+}
+
+.c-banner__title, .c-btn-visual__title, .c-card__title, .c-compare__header .c-compare__row-label .c-compare__title, .c-compare__title, .c-content-panel__title, .c-cta-banner__title, .c-expand-panel__title, .c-feature-table__header .c-feature-table__title, .c-filter-bar__title, .c-footer-drawer__title, .c-icon-heading, .c-map-list-item__title, .c-map-popup-new__inner__title, .c-phone-table, .c-split-panel__title, .c-tile__title, .c-title-bar__title, .s-google-search.s-google-search form.gsc-search-box::before, .u-proxima-nova-medium, .u-section-heading, h3:not([class]) {
+  font-family: proxima-nova,sans-serif;
+  font-size: 20px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+h4 {
+-webkit-font-smoothing: antialiased !important;
+color: #37393A;
+font-size: 12px;
+font-weight: 700;
+}
