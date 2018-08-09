@@ -302,10 +302,10 @@ isSettings:boolean=false;
                this.zoomOndblClick();
            });
  
-           var square1 = document.getElementById('mapper');
-             square1.addEventListener("click", ()=>{
-               this.zoomOndblClick();
-           });
+          //  var square1 = document.getElementById('mapper');
+          //    square1.addEventListener("click", ()=>{
+          //      this.zoomOndblClick();
+          //  });
  
  
                this.pitch = 30;
