@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef, NgZone, ElementRef, ViewChild } from '@angular/core';
 import { LngLatLike, LngLatBounds,Map} from 'mapbox-gl';
 import { HttpClient } from '@angular/common/http';
-import { MatBottomSheet, ICON_REGISTRY_PROVIDER_FACTORY } from '@angular/material';
+import { MatBottomSheet, ICON_REGISTRY_PROVIDER_FACTORY, MatDialog } from '@angular/material';
 import { JobdetailComponent } from './jobdetail/jobdetail.component';
 import { Router, ActivatedRoute } from '@angular/router';
 import { PatrolTrackerService } from './patroltracker.service';
@@ -12,8 +12,13 @@ import { PolyLineService } from './polyline.service';
 import { SharedModule } from '../../shared/shared.module';
 import { log } from 'util';
 import { parse } from 'url';
+import { Dialog } from './dialog/dialog.component';
 declare var turf: any; //importing turf library features in variable turf.
-
+declare var Hammer: any;
+export interface DialogData {
+  animal: string;
+  name: string;
+}
 
 @Component({
   selector: 'patroltracker',
@@ -45,7 +50,7 @@ export class PatrolTrackerComponent implements OnInit, OnDestroy {
         }
     }]
 };
-
+tapCounter = 0;
 /**
  * plotting route on map
  */
@@ -54,11 +59,11 @@ isSettings:boolean=false;
   center: LngLatLike;
   zoom = [0];
   pitch: number;
-  paint:any = {
-    'line-color': 'blue',
-    'line-opacity': 0.75,
-    'line-width': 1
-};
+  paint: any = {
+    'line-color': '#0099FF',
+    'line-opacity': 0.80,
+    'line-width': 5
+  };
 /**
  * plotting and altering marker
  * and its behaviour on map
@@ -131,7 +136,7 @@ isSettings:boolean=false;
     public bottomSheet: MatBottomSheet,
     private patrolservice: PatrolTrackerService,
     private PolyLineService: PolyLineService,
-    public ngZone: NgZone,changeDetectorRef: ChangeDetectorRef) {
+    public ngZone: NgZone,changeDetectorRef: ChangeDetectorRef, public dialog: MatDialog) {
       this.changeDetectorRef = changeDetectorRef;
      
   }
@@ -262,6 +267,61 @@ isSettings:boolean=false;
         this.req2.unsubscribe();
       }
       this.req2 = this.patrolservice.getPatrolLocation(this.index).subscribe(pdata => {
+        this.tapCounter++;
+        if (this.tapCounter == 1) {
+          var context = Object.assign(this);
+          // var square = document.getElementsByClassName('mapboxgl-ctrl-icon mapboxgl-ctrl-compass');
+          var square = document.getElementById('mapper');
+           debugger
+           // Create a manager to manager the element
+           var manager = new Hammer.Manager(square);
+ 
+           // Create a recognizer
+           // var DoubleTap = new Hammer.Tap({
+           //   event: 'click'
+           // });
+           var DoubleTap = new Hammer.Tap({
+             event: "tap",
+             taps: 2,
+             pointerType: Hammer.POINTER_TOUCH
+         });
+         var Tap = new Hammer.Tap({
+           event: "tap",
+           taps: 1,
+           pointerType: Hammer.POINTER_TOUCH
+       });
+ 
+           // Add the recognizer to the manager
+           manager.add(DoubleTap);
+           manager.add(Tap);
+ 
+           // Subscribe to desired event
+           manager.on('tap', (e) => {
+             var square = document.getElementsByClassName('mapboxgl-ctrl-icon mapboxgl-ctrl-compass');
+             square[0].addEventListener("click", ()=>{
+               this.zoomOndblClick();
+           });
+ 
+           var square1 = document.getElementById('mapper');
+             square1.addEventListener("click", ()=>{
+               this.zoomOndblClick();
+           });
+ 
+ 
+               this.pitch = 30;
+            /*   
+             
+                 const coordinates = this.data.features[0].geometry.coordinates;
+                this.bounds = coordinates.reduce((bounds, coord) => {
+                  return bounds.extend(<any>coord);
+                }, new LngLatBounds(coordinates[0], coordinates[0]));
+                this.zoomOndblClick();
+             // debugger
+             this.clickEvent.emit(e); */
+           });
+           
+         } 
+
         this.options.coords.startLang = pdata.longitude;
         this.options.coords.startLat = pdata.latitude;
         //this.zoomToBounds();
@@ -463,6 +523,16 @@ isSettings:boolean=false;
     //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
     //Add 'implements AfterViewInit' to the class.
     this.details = status;
+  }
+  openDialog(): void {
+    const dialogRef = this.dialog.open(Dialog, {
+      width: '300px',
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 }
 

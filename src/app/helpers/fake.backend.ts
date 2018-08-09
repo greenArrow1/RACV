@@ -74,7 +74,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 }
             }
             if (request.url.match(/\/api\/location\/\d+$/) && request.method === 'GET') {
-                debugger
                 let coords: any[] = JSON.parse(localStorage.getItem('coords')) || [];
                 if (request.headers.get('Authorization') === 'Bearer fake-jwt-token') {
                     let urlParts = request.url.split('/');
