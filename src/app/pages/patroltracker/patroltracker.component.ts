@@ -273,43 +273,42 @@ export class PatrolTrackerComponent implements OnInit, OnDestroy {
           var context = Object.assign(this);
           // var square = document.getElementsByClassName('mapboxgl-ctrl-icon mapboxgl-ctrl-compass');
           var square = document.getElementById('mapper');
-          // Create a manager to manager the element
-          var manager = new Hammer.Manager(square);
-
-          // Create a recognizer
-          // var DoubleTap = new Hammer.Tap({
-          //   event: 'click'
-          // });
-          var DoubleTap = new Hammer.Tap({
-            event: "tap",
-            taps: 2,
-            pointerType: Hammer.POINTER_TOUCH
-          });
-          //    var Tap = new Hammer.Tap({
-          //      event: "tap",
-          //      taps: 1,
-          //      pointerType: Hammer.POINTER_TOUCH
+           // Create a manager to manager the element
+           var manager = new Hammer.Manager(square);
+ 
+           // Create a recognizer
+           // var DoubleTap = new Hammer.Tap({
+           //   event: 'click'
+           // });
+           var DoubleTap = new Hammer.Tap({
+             event: "tap",
+             taps: 2,
+             pointerType: Hammer.POINTER_TOUCH
+         });
+         var Tap = new Hammer.Tap({
+           event: "tap",
+           taps: 1,
+           pointerType: Hammer.POINTER_TOUCH
+       });
+ 
+           // Add the recognizer to the manager
+           manager.add(DoubleTap);
+           manager.add(Tap);
+ 
+           // Subscribe to desired event
+           manager.on('tap', (e) => {
+             var square = document.getElementsByClassName('mapboxgl-ctrl-icon mapboxgl-ctrl-compass');
+             square[0].addEventListener("click", ()=>{
+               this.zoomOndblClick();
+           });
+ 
+          //  var square1 = document.getElementById('mapper');
+          //    square1.addEventListener("click", ()=>{
+          //      this.zoomOndblClick();
           //  });
-
-          // Add the recognizer to the manager
-          manager.add(DoubleTap);
-          //manager.add(Tap);
-
-          // Subscribe to desired event
-          manager.on('tap', (e) => {
-            //    var square = document.getElementsByClassName('mapboxgl-ctrl-icon mapboxgl-ctrl-compass');
-            //    square[0].addEventListener("click", ()=>{
-            //      this.zoomOndblClick();
-            //  });
-            debugger
-            console.log(e)
-            if (e.tapCount == 2) {
-              this.elementId = document.getElementById('mapper');
-              this.elementId.addEventListener("click", () => {
-                this.zoomOndblClick();
-              });
-            }
-            this.pitch = 30;
+ 
+ 
+               this.pitch = 30;
             /*   
              
                  const coordinates = this.data.features[0].geometry.coordinates;
