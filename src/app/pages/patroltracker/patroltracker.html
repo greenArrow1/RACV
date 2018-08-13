@@ -21,7 +21,7 @@
     <mgl-map  id="map" [style]="'mapbox://styles/mapbox/light-v9'" [zoom]="zoom" [center]="center" [centerWithPanTo]="true" [pitch]="pitch"
         movingMethod="jumpTo" [fitBounds]="bounds" [fitBoundsOptions]="{
             padding: 50
-          }" [doubleClickZoom]="false" (dblClick)="zoomOndblClick()" (load)="map = $event">
+          }" [doubleClickZoom]="false" (dblClick)="zoomOndblClick()" (load)="map = $event" (click)="tapped($event)">
 
         <mgl-marker hm-tap="dbTap" id="dest" *ngIf="showMarker" [feature]="destfeature">
             <!-- <div (click)="onClick(destfeature)" class="markersource" style="background-image: url(../assets/images/descmarker.png);">
